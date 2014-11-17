@@ -2,6 +2,9 @@
 
 namespace Rca.IcsParser
 {
+    /// <summary>
+    /// Testbench für dei IcsParser-DLL
+    /// </summary>
     class Program
     {
         static Uri WebIcsFile = new Uri(@"https://www.google.com/calendar/ical/ahhulle352l5hbn2uk6ojccrk8%40group.calendar.google.com/public/basic.ics");
