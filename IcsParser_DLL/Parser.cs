@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using System.Reflection;
 using System.IO;
 using System.Linq;
+using System.Net;
 
 namespace Rca.IcsParser
 {
@@ -23,20 +24,32 @@ namespace Rca.IcsParser
         /// </summary>
         /// <param name="filePath">Pfad zur *isc.-Datei</param>
         /// <returns>Liste mit <seealso cref="EventEntry"/>EventEntry</seealso>-Objekten, sortiert nach Startdatum der Events</returns>
-        public EventEntryList Parse(String filePath)
+        public EventEntryList Parse(Uri icsUri)
         {
-            if (!filePath.EndsWith(".ics"))
+            if (!icsUri.OriginalString.EndsWith(".ics"))
             {
                 throw new FileLoadException("Fehlerhafte Dateiendung, es wird eine *.ics-Datei erwartet");
             }
+
+            
 
             String dataStr = null;
             String actLine = null;
             EventEntry actEventEntry = new EventEntry();
             EventEntryList eventList = new EventEntryList();
-            StreamReader file = new StreamReader(filePath);
+            StreamReader streamReader;
 
-            while ((actLine = file.ReadLine()) != null) //HINT: Letzte Zeile wird nicht mehr geparst!
+            if (icsUri.IsFile)
+            {
+                streamReader = new StreamReader(icsUri.LocalPath);
+            }
+            else
+            {
+                WebResponse webResponse = WebRequest.Create(icsUri).GetResponse();
+                streamReader = new StreamReader(webResponse.GetResponseStream());
+            }
+
+            while ((actLine = streamReader.ReadLine()) != null) //HINT: Letzte Zeile wird nicht mehr geparst!
             {
                 if (dataStr != null)
                 {
@@ -89,7 +102,7 @@ namespace Rca.IcsParser
                 }
             }
 
-            file.Close();
+            streamReader.Close();
 
             eventList.Sort();
 

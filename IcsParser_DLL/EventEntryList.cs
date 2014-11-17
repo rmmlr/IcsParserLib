@@ -16,11 +16,6 @@ namespace Rca.IcsParser
     public class EventEntryList
     {
         #region Klassenvariablen
-        /// <summary>
-        /// Entspricht 24h in Ticks
-        /// </summary>
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private const long DAY_TICKS = 864000000000;
 
         [DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
         private List<EventEntry> m_InnerList = new List<EventEntry>();
@@ -81,7 +76,7 @@ namespace Rca.IcsParser
         /// </summary>
         public void Sort()
         {
-            m_InnerList = m_InnerList.OrderBy(x => Convert.ToInt32(x.DTSTART.Ticks / DAY_TICKS)).ToList();
+            m_InnerList = m_InnerList.OrderBy(x => Convert.ToInt32(x.DTSTART.Ticks / new TimeSpan(24, 0, 0).Ticks)).ToList();
         }
 
         /// <summary>
