@@ -23,7 +23,7 @@ namespace Rca.IcsParser
         /// </summary>
         /// <param name="filePath">Pfad zur *isc.-Datei</param>
         /// <returns>Liste mit <seealso cref="EventEntry"/>EventEntry</seealso>-Objekten, sortiert nach Startdatum der Events</returns>
-        public List<EventEntry> Parse(String filePath)
+        public EventEntryList Parse(String filePath)
         {
             if (!filePath.EndsWith(".ics"))
             {
@@ -33,7 +33,7 @@ namespace Rca.IcsParser
             String dataStr = null;
             String actLine = null;
             EventEntry actEventEntry = new EventEntry();
-            List<EventEntry> eventList = new List<EventEntry>();
+            EventEntryList eventList = new EventEntryList();
             StreamReader file = new StreamReader(filePath);
 
             while ((actLine = file.ReadLine()) != null) //HINT: Letzte Zeile wird nicht mehr geparst!
@@ -91,7 +91,9 @@ namespace Rca.IcsParser
 
             file.Close();
 
-            return eventList.OrderBy(x => Convert.ToInt32(x.DTSTART.Ticks / DAY_TICKS)).ToList();
+            eventList.Sort();
+
+            return eventList;
         }
 
         /// <summary>
@@ -101,20 +103,20 @@ namespace Rca.IcsParser
         /// <returns>KeyValuePair</returns>
         private KeyValuePair<String, String> ParseLine(String line)
         {
-            KeyValuePair<String, String> p;
+            KeyValuePair<String, String> result;
             Regex exp = new Regex(@"^(?<key>.+?):(?<value>.+?)$");
             Match m = exp.Match(line);
 
             if (m.Success)
             {
-                p = new KeyValuePair<String, String>(m.Groups["key"].Value.Replace("-", ""), m.Groups["value"].Value);
+                result = new KeyValuePair<String, String>(m.Groups["key"].Value.Replace("-", ""), m.Groups["value"].Value);
             }
             else
             {
                 throw new MissingFieldException("Kein Key oder Value gefunden\nEingelesene Zeile: \"" + line + "\"");
             }
 
-            return p;
+            return result;
         }
 
         /// <summary>
@@ -158,19 +160,19 @@ namespace Rca.IcsParser
         /// <summary>
         /// Konvertiert einen String (Value-Teil eines Zeilendatensatzes) in den angegebenen Typ
         /// </summary>
-        /// <param name="str">Value-String des Zeilendatensatzes</param>
+        /// <param name="valueString">Value-String des Zeilendatensatzes</param>
         /// <param name="type">Rückgabetyp</param>
         /// <returns>Konvertierter Wert im angegebenen Typ</returns>
-        private object ConvertToType(String str, Type type)
+        private object ConvertToType(String valueString, Type type)
         {
             switch (type.ToString())
             {
                 case "System.DateTime":
-                    return ParseDate(str);
+                    return ParseDate(valueString);
                 case "Rca.IcsParser.StatusEnum":
-                    return ParseStatus(str);
+                    return ParseStatus(valueString);
                 case "System.String":
-                    return str.Replace("\\","");
+                    return valueString.Replace("\\","");
                 default:
                     throw new TypeLoadException("Kein Sub-Parser für diesen Typ vorhanden");
             }

@@ -16,7 +16,7 @@ namespace Rca.IcsParser
         static void Main(string[] args)
         {            
             IcsParser myIcsParser = new IcsParser();
-            List<EventEntry> myEventList = myIcsParser.Parse(ICS_PATH);
+            EventEntryList myEventList = myIcsParser.Parse(ICS_PATH);
             Console.WriteLine("Es wurden {0} Event-Einträge gefunden.", myEventList.Count);
             Console.ReadKey();
         }
