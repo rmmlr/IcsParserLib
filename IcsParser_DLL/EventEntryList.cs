@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Text;
 
 namespace Rca.IcsParser
 {
@@ -88,19 +85,19 @@ namespace Rca.IcsParser
         }
 
         /// <summary>
-        /// Gibt das kommende Event zurück, sollten mehrere Events am selben Tag anfangen, werden alle zurückgegeben
+        /// Gibt das kommende Event zurück, sollten mehrere Events am selben Tag anfangen, werden alle als Array zurückgegeben
         /// </summary>
-        /// <returns>Kommende Event/-s</returns>
-        public EventEntry GetNextEvents()
+        /// <returns>Kommende Event/-s als Array</returns>
+        public EventEntry[] GetNextEvents()
         {
             throw new NotImplementedException();
         }
 
         /// <summary>
-        /// Gibt das letzte Event zurück, sollten mehrere Events am selben Tag angefangen haben, werden alle zurückgegeben
+        /// Gibt das letzte Event zurück, sollten mehrere Events am selben Tag angefangen haben, werden alle als Array zurückgegeben
         /// </summary>
-        /// <returns>Letzte Event/-s</returns>
-        public EventEntry GetRecentEvents()
+        /// <returns>Letzte Event/-s als Array</returns>
+        public EventEntry[] GetRecentEvents()
         {
             throw new NotImplementedException();
         }

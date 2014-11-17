@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Reflection;
 using System.IO;
-using System.Linq;
 using System.Net;
 
 namespace Rca.IcsParser
@@ -14,11 +13,6 @@ namespace Rca.IcsParser
     /// </summary>
     public class IcsParser
     {
-        /// <summary>
-        /// Entspricht 24h in Ticks
-        /// </summary>
-        const long DAY_TICKS = 864000000000;
-
         /// <summary>
         /// Parst die angegebene *ics.-Datei und gibt Eventeinträge (VEVENT) zurück
         /// </summary>
