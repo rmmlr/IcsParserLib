@@ -17,16 +17,15 @@ namespace Rca.IcsParser
         /// Parst die angegebene *ics.-Datei und gibt Eventeinträge (VEVENT) zurück
         /// </summary>
         /// <param name="filePath">Pfad zur *isc.-Datei</param>
-        /// <returns>Liste mit <seealso cref="EventEntry"/>EventEntry</seealso>-Objekten, sortiert nach Startdatum der Events</returns>
+        /// <returns>Liste mit <seealso cref="EventEntry"/>EventEntry</seealso>-Objekten,
+        /// sortiert nach Startdatum der Events</returns>
         public EventEntryList Parse(Uri icsUri)
         {
             if (!icsUri.OriginalString.EndsWith(".ics"))
             {
                 throw new FileLoadException("Fehlerhafte Dateiendung, es wird eine *.ics-Datei erwartet");
             }
-
             
-
             String dataStr = null;
             String actLine = null;
             EventEntry actEventEntry = new EventEntry();
@@ -71,7 +70,8 @@ namespace Rca.IcsParser
                                     PropertyInfo propertyInfo = actEventEntry.GetType().GetProperty(mainKey[0]);
                                     if (propertyInfo != null)
                                     {
-                                        propertyInfo.SetValue(actEventEntry, ConvertToType(p.Value, propertyInfo.PropertyType), null);
+                                        propertyInfo.SetValue(actEventEntry, ConvertToType(p.Value,
+                                            propertyInfo.PropertyType), null);
                                     }
                                     else
                                     {
@@ -97,7 +97,6 @@ namespace Rca.IcsParser
             }
 
             streamReader.Close();
-
             eventList.Sort();
 
             return eventList;
@@ -116,11 +115,13 @@ namespace Rca.IcsParser
 
             if (m.Success)
             {
-                result = new KeyValuePair<String, String>(m.Groups["key"].Value.Replace("-", ""), m.Groups["value"].Value);
+                result = new KeyValuePair<String, String>(m.Groups["key"].Value.Replace("-", ""),
+                    m.Groups["value"].Value);
             }
             else
             {
-                throw new MissingFieldException("Kein Key oder Value gefunden\nEingelesene Zeile: \"" + line + "\"");
+                throw new MissingFieldException("Kein Key oder Value gefunden\nEingelesene Zeile: \"" +
+                    line + "\"");
             }
 
             return result;
