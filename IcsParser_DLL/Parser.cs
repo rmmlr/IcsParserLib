@@ -21,11 +21,12 @@ namespace Rca.IcsParser
         /// sortiert nach Startdatum der Events</returns>
         public EventEntryList Parse(Uri icsUri)
         {
-            if (!icsUri.OriginalString.EndsWith(".ics"))
+            if (!icsUri.AbsoluteUri.EndsWith(".ics") && !icsUri.AbsoluteUri.EndsWith(".ICS"))
             {
                 throw new FileLoadException("Fehlerhafte Dateiendung, es wird eine *.ics-Datei erwartet");
             }
-            
+
+            Boolean isIcsHead = true;
             String dataStr = null;
             String actLine = null;
             EventEntry actEventEntry = new EventEntry();
@@ -55,29 +56,47 @@ namespace Rca.IcsParser
                         try
                         {
                             KeyValuePair<String, String> p = ParseLine(dataStr);
-                            String[] mainKey = p.Key.Split(';');
+                            String[] pKeys = p.Key.Split(';');
 
-                            switch (mainKey[0])
+                            if (isIcsHead && !(pKeys[0] == "BEGIN" && p.Value == "VEVENT"))
                             {
-                                case "BEGIN":
-                                    //TODO: auf VEVENT prüfen
-                                    actEventEntry = new EventEntry();
-                                    break;
-                                case "END":
-                                    eventList.Add(actEventEntry);
-                                    break;
-                                default:
-                                    PropertyInfo propertyInfo = actEventEntry.GetType().GetProperty(mainKey[0]);
-                                    if (propertyInfo != null)
-                                    {
-                                        propertyInfo.SetValue(actEventEntry, ConvertToType(p.Value,
-                                            propertyInfo.PropertyType), null);
-                                    }
-                                    else
-                                    {
-                                        Debug.WriteLine(p.Value);
-                                    }
-                                    break;
+                                PropertyInfo propertyInfo = eventList.GetType().GetProperty(pKeys[0]);
+                                if (propertyInfo != null)
+                                {
+                                    propertyInfo.SetValue(eventList, ConvertToType(p.Value,
+                                        propertyInfo.PropertyType), null);
+                                }
+                                else
+                                {
+                                    Debug.WriteLine(p.Value);
+                                }
+                            }
+                            else
+                            {
+                                isIcsHead = false;
+
+                                switch (pKeys[0])
+                                {
+                                    case "BEGIN":
+                                        //TODO: auf VEVENT prüfen
+                                        actEventEntry = new EventEntry();
+                                        break;
+                                    case "END":
+                                        eventList.Add(actEventEntry);
+                                        break;
+                                    default:
+                                        PropertyInfo propertyInfo = actEventEntry.GetType().GetProperty(pKeys[0]);
+                                        if (propertyInfo != null)
+                                        {
+                                            propertyInfo.SetValue(actEventEntry, ConvertToType(p.Value,
+                                                propertyInfo.PropertyType), null);
+                                        }
+                                        else
+                                        {
+                                            Debug.WriteLine(p.Value);
+                                        }
+                                        break;
+                                }
                             }
                         }
                         catch (MissingFieldException ex)
