@@ -10,8 +10,7 @@ namespace Rca.IcsParser
     [DebuggerDisplay("{SUMMARY}")]
     public class EventEntry
     {
-        //Auszug aus *ics-Datei
-        //
+        #region Auszug aus *ics-Datei
         //  BEGIN:VEVENT
         //  DTSTART;VALUE=DATE:20141003
         //  DTEND;VALUE=DATE:20141006
@@ -30,6 +29,9 @@ namespace Rca.IcsParser
         // *TRANSP:TRANSPARENT
         //  END:VEVENT
 
+        #endregion Auszug aus *ics-Datei
+
+        #region Poperties
         /// <summary>
         /// Startdatum und Uhrzeit
         /// </summary>
@@ -79,5 +81,7 @@ namespace Rca.IcsParser
         /// UID
         /// </summary>
         public String UID { get; internal set; }
+
+        #endregion Poperties
     }
 }
