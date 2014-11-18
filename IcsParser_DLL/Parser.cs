@@ -17,9 +17,8 @@ namespace Rca.IcsParser
         /// <summary>
         /// Parst die angegebene *ics.-Datei und gibt Eventeinträge (VEVENT) zurück
         /// </summary>
-        /// <param name="filePath">Pfad zur *isc.-Datei</param>
-        /// <returns>Liste mit <seealso cref="EventEntry"/>EventEntry</seealso>-Objekten,
-        /// sortiert nach Startdatum der Events</returns>
+        /// <param name="icsUri">Uri (Pfad) zur *isc.-Datei</param>
+        /// <returns>Liste mit <seealso cref="EventEntry"/>-Objekten, sortiert nach Startdatum der Events</returns>
         public EventEntryList ParseEvents(Uri icsUri)
         {
             if (!icsUri.AbsoluteUri.EndsWith(".ics") && !icsUri.AbsoluteUri.EndsWith(".ICS"))
@@ -43,7 +42,7 @@ namespace Rca.IcsParser
                 try
                 {
                     WebResponse webResponse = WebRequest.Create(icsUri).GetResponse();
-                    streamReader = new StreamReader(webResponse.GetResponseStream());
+                    streamReader = new StreamReader(webResponse.GetResponseStream(), System.Text.Encoding.Default);
                 }
                 catch (WebException)
                 {

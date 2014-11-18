@@ -7,7 +7,7 @@
     <ProjectGuid>{E910AFC5-0CD0-4C1D-8672-8ED0E4BB1E48}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>IcsParser_Testbench</RootNamespace>
+    <RootNamespace>Rca.IcsParser</RootNamespace>
     <AssemblyName>IcsParser_Testbench</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -45,8 +45,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PlayGround.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Schedule.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

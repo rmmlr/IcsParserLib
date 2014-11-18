@@ -146,8 +146,7 @@ namespace Rca.IcsParser
         {
             if (m_InnerList != null)
             {
-                List<EventEntry> result = m_InnerList.FindAll(e => (e.DTSTART >= m_Today));
-                return result.FindAll(e => (e.DTEND <= m_Today)).ToArray();
+                return m_InnerList.FindAll(e => (e.DTSTART >= m_Today && e.DTEND <= m_Today)).ToArray();
             }
             else
             {

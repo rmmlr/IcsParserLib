@@ -9,6 +9,7 @@ namespace Rca.IcsParser
     {
         static Uri WebIcsFile = new Uri(@"https://www.google.com/calendar/ical/ahhulle352l5hbn2uk6ojccrk8%40group.calendar.google.com/public/basic.ics");
         static Uri LocalIcsFile = new Uri(new Uri(AppDomain.CurrentDomain.BaseDirectory), @"basic.ics");
+        static Uri CloudIcs = new Uri(@"https://p09-calendars.icloud.com/published/2/X_gf8J1nymX3sWWrN2s8F5dyt3-VVaWvpRT-OOZq8JpP8tz5CyYX8JfwjrxfsksyV4L4nBvNRMmeqbj_WSGZwSav26nYSmcXChc7zZAP7UQ");
 
         static void Main(string[] args)
         {
@@ -18,7 +19,7 @@ namespace Rca.IcsParser
             Boolean successSelected = false;
             while (!successSelected)
             {
-                Console.Write("\nAuswahl der ICS-Quelle. (W: Web, L: Lokal) ");
+                Console.Write("\nAuswahl der ICS-Quelle. (W: Web, L: Lokal, C: iCloud) ");
 
                 switch (Console.ReadKey().Key)
                 {
@@ -28,6 +29,11 @@ namespace Rca.IcsParser
                         break;
                     case ConsoleKey.W:
                         myEventList = myIcsParser.ParseEvents(WebIcsFile);
+                        successSelected = true;
+                        break;
+                    case ConsoleKey.C:
+                        PlayGround myPlayGround = new PlayGround();
+                        myPlayGround.Parse(CloudIcs);
                         successSelected = true;
                         break;
                     default:
