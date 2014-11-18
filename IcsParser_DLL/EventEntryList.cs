@@ -27,6 +27,8 @@ namespace Rca.IcsParser
         
         #endregion Klassenvariablen
 
+        #region Poperties
+
         /// <summary>
         /// Zugriff auf die Event-Einträge
         /// </summary>
@@ -55,6 +57,9 @@ namespace Rca.IcsParser
         /// </summary>
         public String XWRCALDESC { get; set; }
 
+        #endregion Poperties
+        
+        #region Dienstmethoden
         /// <summary>
         /// Gibt die Anzahl der Event-Einträge zurück
         /// </summary>
@@ -149,5 +154,7 @@ namespace Rca.IcsParser
                 return new EventEntry[0];
             }
         }
+
+        #endregion Dienstmethoden
     }
 }
