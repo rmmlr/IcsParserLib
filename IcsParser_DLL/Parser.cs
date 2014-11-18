@@ -13,6 +13,7 @@ namespace Rca.IcsParser
     /// </summary>
     public class IcsParser
     {
+        #region Dienstmethoden
         /// <summary>
         /// Parst die angegebene *ics.-Datei und gibt Eventeinträge (VEVENT) zurück
         /// </summary>
@@ -130,6 +131,9 @@ namespace Rca.IcsParser
             return eventList;
         }
 
+        #endregion Dienstmethoden
+
+        #region interne Dienstmethoden
         /// <summary>
         /// Überführt eine eingelesene Zeile in ein KeyValuePair
         /// </summary>
@@ -213,5 +217,7 @@ namespace Rca.IcsParser
                     throw new TypeLoadException("Kein Sub-Parser für diesen Typ vorhanden");
             }
         }
+
+        #endregion interne Dienstmethoden
     }
 }
