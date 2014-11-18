@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -14,8 +14,16 @@ namespace Rca.IcsParser
     {
         #region Klassenvariablen
 
+        /// <summary>
+        /// Innere Liste der Event-Einträge
+        /// </summary>
         [DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
         private List<EventEntry> m_InnerList = new List<EventEntry>();
+
+        /// <summary>
+        /// Aktuelles Datum ohne Uhrzeit
+        /// </summary>
+        private readonly DateTime m_Today = new DateTime(DateTime.Now.Date.Ticks);
         
         #endregion Klassenvariablen
 
@@ -55,7 +63,10 @@ namespace Rca.IcsParser
         {
             get
             {
-                return m_InnerList.Count;
+                if (m_InnerList == null)
+                    return 0;
+                else
+                    return m_InnerList.Count;
             }
         }
 
@@ -65,6 +76,9 @@ namespace Rca.IcsParser
         /// <param name="entry">Event-Eintrag</param>
         public void Add(EventEntry entry)
         {
+            if (m_InnerList == null)
+                m_InnerList = new List<EventEntry>();
+
             m_InnerList.Add(entry);
         }
 
@@ -73,7 +87,8 @@ namespace Rca.IcsParser
         /// </summary>
         public void Sort()
         {
-            m_InnerList = m_InnerList.OrderBy(x => Convert.ToInt32(x.DTSTART.Ticks / new TimeSpan(24, 0, 0).Ticks)).ToList();
+            if (m_InnerList != null)
+                m_InnerList = m_InnerList.OrderBy(x => Convert.ToInt32(x.DTSTART.Ticks / new TimeSpan(24, 0, 0).Ticks)).ToList();
         }
 
         /// <summary>
@@ -81,25 +96,41 @@ namespace Rca.IcsParser
         /// </summary>
         public void Clear()
         {
-            m_InnerList.Clear();
+            if (m_InnerList != null)
+            {
+                m_InnerList.Clear();
+                m_InnerList = null;
+            }
         }
 
         /// <summary>
-        /// Gibt das kommende Event zurück, sollten mehrere Events am selben Tag anfangen, werden alle als Array zurückgegeben
+        /// Gibt alle kommenden Events zurück
         /// </summary>
-        /// <returns>Kommende Event/-s als Array</returns>
+        /// <returns>Kommende Events als Array, leeres Array wenn keine Einträge gefunden</returns>
         public EventEntry[] GetNextEvents()
         {
-            throw new NotImplementedException();
+            if (m_InnerList != null)
+                return m_InnerList.FindAll(x => (x.DTSTART >= m_Today)).ToArray();
+            else
+                return new EventEntry[0];
         }
 
         /// <summary>
-        /// Gibt das letzte Event zurück, sollten mehrere Events am selben Tag angefangen haben, werden alle als Array zurückgegeben
+        /// Gibt alle vorherigen Events zurück
         /// </summary>
-        /// <returns>Letzte Event/-s als Array</returns>
+        /// <returns>Vorherigen Events als Array in umgekehrter Reihenfolge, leeres Array wenn keine Einträge gefunden</returns>
         public EventEntry[] GetRecentEvents()
         {
-            throw new NotImplementedException();
+            if (m_InnerList != null)
+            {
+                EventEntry[] result = m_InnerList.FindAll(x => (x.DTSTART <= m_Today)).ToArray();
+
+                return result.Reverse().ToArray();
+            }
+            else
+            {
+                return new EventEntry[0];
+            }
         }
     }
 }
