@@ -78,11 +78,12 @@ namespace Rca.IcsParser
                                 switch (pKeys[0])
                                 {
                                     case "BEGIN":
-                                        //TODO: auf VEVENT prüfen!
-                                        actEventEntry = new EventEntry();
+                                        if (p.Value == "VEVENT")
+                                            actEventEntry = new EventEntry();
                                         break;
                                     case "END":
-                                        eventList.Add(actEventEntry);
+                                        if (p.Value == "VEVENT")
+                                            eventList.Add(actEventEntry);
                                         break;
                                     default:
                                         PropertyInfo propertyInfo = actEventEntry.GetType().GetProperty(pKeys[0]);
