@@ -88,7 +88,7 @@ namespace Rca.IcsParser
         public void Sort()
         {
             if (m_InnerList != null)
-                m_InnerList = m_InnerList.OrderBy(x => Convert.ToInt32(x.DTSTART.Ticks / new TimeSpan(24, 0, 0).Ticks)).ToList();
+                m_InnerList = m_InnerList.OrderBy(e => Convert.ToInt32(e.DTSTART.Ticks / new TimeSpan(24, 0, 0).Ticks)).ToList();
         }
 
         /// <summary>
@@ -110,7 +110,7 @@ namespace Rca.IcsParser
         public EventEntry[] GetNextEvents()
         {
             if (m_InnerList != null)
-                return m_InnerList.FindAll(x => (x.DTSTART >= m_Today)).ToArray();
+                return m_InnerList.FindAll(e => (e.DTSTART >= m_Today)).ToArray();
             else
                 return new EventEntry[0];
         }
@@ -123,9 +123,26 @@ namespace Rca.IcsParser
         {
             if (m_InnerList != null)
             {
-                EventEntry[] result = m_InnerList.FindAll(x => (x.DTSTART <= m_Today)).ToArray();
+                EventEntry[] result = m_InnerList.FindAll(e => (e.DTSTART <= m_Today)).ToArray();
 
                 return result.Reverse().ToArray();
+            }
+            else
+            {
+                return new EventEntry[0];
+            }
+        }
+
+        /// <summary>
+        /// Gibt alle aktuell laufenden Events zurück
+        /// </summary>
+        /// <returns>Laufende Events</returns>
+        public EventEntry[] GetRunningEvents()
+        {
+            if (m_InnerList != null)
+            {
+                List<EventEntry> result = m_InnerList.FindAll(e => (e.DTSTART >= m_Today));
+                return result.FindAll(e => (e.DTEND <= m_Today)).ToArray();
             }
             else
             {
