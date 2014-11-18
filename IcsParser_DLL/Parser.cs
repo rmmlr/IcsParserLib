@@ -39,8 +39,16 @@ namespace Rca.IcsParser
             }
             else
             {
-                WebResponse webResponse = WebRequest.Create(icsUri).GetResponse();
-                streamReader = new StreamReader(webResponse.GetResponseStream());
+                try
+                {
+                    WebResponse webResponse = WebRequest.Create(icsUri).GetResponse();
+                    streamReader = new StreamReader(webResponse.GetResponseStream());
+                }
+                catch (WebException)
+                {
+                    //TODO: Verbindungsfehler abfangen.
+                    throw;
+                }
             }
 
             while ((actLine = streamReader.ReadLine()) != null) //HINT: Letzte Zeile wird nicht mehr geparst!
