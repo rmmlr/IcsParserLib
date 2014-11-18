@@ -19,7 +19,7 @@ namespace Rca.IcsParser
         /// <param name="filePath">Pfad zur *isc.-Datei</param>
         /// <returns>Liste mit <seealso cref="EventEntry"/>EventEntry</seealso>-Objekten,
         /// sortiert nach Startdatum der Events</returns>
-        public EventEntryList Parse(Uri icsUri)
+        public EventEntryList ParseEvents(Uri icsUri)
         {
             if (!icsUri.AbsoluteUri.EndsWith(".ics") && !icsUri.AbsoluteUri.EndsWith(".ICS"))
             {
@@ -78,7 +78,7 @@ namespace Rca.IcsParser
                                 switch (pKeys[0])
                                 {
                                     case "BEGIN":
-                                        //TODO: auf VEVENT prüfen
+                                        //TODO: auf VEVENT prüfen!
                                         actEventEntry = new EventEntry();
                                         break;
                                     case "END":
