@@ -5,21 +5,21 @@ namespace Rca.IcsParser
 	/// </summary>
 	public enum StatusEnum
 	{
-        /// <summary>
-        /// Status im Eventeintag nicht gesetzt bzw. nicht RFC2445-Konform
-        /// </summary>
+        	/// <summary>
+        	/// Status im Eventeintag nicht gesetzt bzw. nicht RFC2445-Konform
+        	/// </summary>
 		Default = 0,
-        /// <summary>
-        /// Bestätigt
-        /// </summary>
+        	/// <summary>
+		/// Bestätigt
+        	/// </summary>
 		Confirmed,
-        /// <summary>
-        /// Abgesagt
-        /// </summary>
+        	/// <summary>
+        	/// Abgesagt
+        	/// </summary>
 		Cancelled,
-        /// <summary>
-        /// Vorläufig
-        /// </summary>
+        	/// <summary>
+        	/// Vorläufig
+        	/// </summary>
 		Tentative
 	}
 }
