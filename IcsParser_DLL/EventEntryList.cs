@@ -5,6 +5,8 @@ using System.Linq;
 
 namespace Rca.IcsParser
 {
+    //CHECK: Vererbung von : BindingList<EventEntry> ...
+    
     /// <summary>
     /// Liste mit Event-Einträgen
     /// </summary>
@@ -12,7 +14,7 @@ namespace Rca.IcsParser
     [Serializable]
     public class EventEntryList
     {
-        #region Klassenvariablen
+        #region Member
 
         /// <summary>
         /// Innere Liste der Event-Einträge
@@ -25,7 +27,7 @@ namespace Rca.IcsParser
         /// </summary>
         private readonly DateTime m_Today = new DateTime(DateTime.Now.Date.Ticks);
         
-        #endregion Klassenvariablen
+        #endregion Member
 
         #region Poperties
 
@@ -59,7 +61,7 @@ namespace Rca.IcsParser
 
         #endregion Poperties
         
-        #region Dienstmethoden
+        #region Services
         /// <summary>
         /// Gibt die Anzahl der Event-Einträge zurück
         /// </summary>
@@ -154,6 +156,6 @@ namespace Rca.IcsParser
             }
         }
 
-        #endregion Dienstmethoden
+        #endregion Services
     }
 }
