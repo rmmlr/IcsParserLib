@@ -9,8 +9,8 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("RC-Art Solutions")]
-[assembly: AssemblyProduct("IcsParser_DLL")]
-[assembly: AssemblyCopyright("Copyright © RC-Art Solutions 2014 (Elias Ruemmler)")]
+[assembly: AssemblyProduct("IcsParser")]
+[assembly: AssemblyCopyright("Copyright © RC-Art Solutions 2016 (Elias Ruemmler)")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

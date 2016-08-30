@@ -21,7 +21,7 @@ namespace Rca.IcsParser
         /// <returns>Liste mit <seealso cref="EventEntry"/>-Objekten, sortiert nach Startdatum der Events</returns>
         public EventEntryList ParseEvents(Uri icsUri)
         {
-            if (!icsUri.AbsoluteUri.EndsWith(".ics") && !icsUri.AbsoluteUri.EndsWith(".ICS"))
+            if (!icsUri.AbsoluteUri.EndsWith(".ics", StringComparison.InvariantCultureIgnoreCase))
             {
                 throw new FileLoadException("Fehlerhafte Dateiendung, es wird eine *.ics-Datei erwartet");
             }
